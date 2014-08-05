@@ -28,7 +28,4 @@ puts "Chris Oatley"
 puts "Spike Lindsey"
 puts "Henry Stanley"
 #finally, we print the total
-print "Overall, we have "
-#it's important that print() doesn't add new line characters
-print student_count
-puts " great students"
+puts "Overall, we have #{student_count} great students"
