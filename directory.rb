@@ -101,7 +101,11 @@ def print_student(studentlist)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.length} great students"
+  if names.length == 1
+  	puts "Overall, we have #{names.length} great student"
+  else 
+  	puts "Overall, we have #{names.length} great students"
+  end
 end
 
 # List only students whose name begins with a specified letter
