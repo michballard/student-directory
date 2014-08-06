@@ -1,3 +1,4 @@
+
 def input_students
 	print "Please enter the details of each student\n"
 	print "To finish, just press return twice\n"
@@ -7,7 +8,20 @@ def input_students
 	puts "What is the student name?"
 	name = gets.chomp
 	puts "Which cohort is #{name} in?"
-	cohort = gets.chomp
+	cohort = gets.chomp.capitalize
+	# perform cohort checks
+	cohort_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+	if cohort_months.include?(cohort)
+		puts "Cohort verified"		
+	elsif cohort.empty? 
+		cohort = "August"
+		puts "August cohort selected as default"
+	else
+		puts "Please re-enter cohort:"
+		cohort = gets.chomp.capitalize
+		# for future revisions it will be worth looping to recheck the month entered
+	end
+	# enter further information
 	puts "What are #{name}'s hobbies?"
 	hobbies = gets.chomp
 	puts "Which country was #{name} born in?"
@@ -17,15 +31,27 @@ def input_students
 	# while the name is not empty, repeat this code
 	while !name.empty? do
 		# add the student hash to the array
-		students << {:name => name.capitalize, :cohort => cohort.capitalize, :hobbies => hobbies.downcase, :cob => cob.upcase, :height => height.to_i}
+		students << {:name => name.capitalize, :cohort => cohort, :hobbies => hobbies.downcase, :cob => cob.upcase, :height => height.to_i}
 		print "Now we have #{students.length} students\n"
 		# get another student's details from the user
 		puts "What is next student's name?"
 		name = gets.chomp
 		# run additional questions if another student is being added
 		if name != ""
+			# perform cohort checks
 			puts "Which cohort is #{name} in?"
 			cohort = gets.chomp
+			if cohort_months.include?(cohort)
+				puts "Cohort verified"		
+			elsif cohort.empty? 
+				cohort = "August"
+				puts "August cohort selected as default"
+			else
+				puts "Please re-enter cohort:"
+				cohort = gets.chomp
+				# for future revisions it will be worth looping to recheck the month entered
+			end
+			# enter further information
 			puts "What are #{name}'s hobbies?"
 			hobbies = gets.chomp
 			puts "Which country was #{name} born in?"
@@ -102,9 +128,28 @@ def students_namelength(studentlist)
 	end
 end	
 
+def cohorts(studentlist)
+	cohortlist = (studentlist.map { |student| student[:cohort] }).uniq
+	puts cohortlist 
+	# cohortlist.each { |student, cohort| }
+
+end
+
+# 	count = 0
+# 	until count >= studentlist.length 
+# 		count += 1		
+# 		studentlist.keep_if do |student|
+# #			student[:cohort] = "August"
+# 			puts "#{count}. #{student[:name]} (#{student[:cohort]} cohort)"
+# 			puts "   Hobbies: #{student[:hobbies]}\n   Birth country: #{student[:cob]}\n   Height: #{student[:height]}"
+# 		end
+# 	end
+# end
+
 students = input_students
 print_header
 print_student(students)
 print_footer(students)
 student_search(students)
 students_namelength(students)
+cohorts(students)
