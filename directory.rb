@@ -39,7 +39,10 @@ def input_students
 end 
 
 def print_header
-  print "The students of my cohort at Makers Academy\n----------------\n"
+  header = "The students of my cohort at Makers Academy"
+  line = "----------------------------"
+  puts header.center(100) 
+  puts line.center(100)
 end
 
 # def print_student(students)
@@ -66,7 +69,7 @@ def print_student(studentlist)
 		studentlist.select do |student|
 			count += 1			
 			puts "#{count}. #{student[:name]} (#{student[:cohort]} cohort)"
-			puts "Hobbies: #{student[:hobbies]}, Birth country: #{student[:cob]}, Height: #{student[:height]}"
+			puts "   Hobbies: #{student[:hobbies]}\n   Birth country: #{student[:cob]}\n   Height: #{student[:height]}"
 		end
 	end
 end
