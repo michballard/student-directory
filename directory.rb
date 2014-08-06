@@ -130,10 +130,24 @@ end
 
 def cohorts(studentlist)
 	cohortlist = (studentlist.map { |student| student[:cohort] }).uniq
-	puts cohortlist 
-	# cohortlist.each { |student, cohort| }
-
+	# cohortlist.each do |student, cohort|
+	# 	puts "#{student[:name]}" if student[:cohort] = cohort
+	# end
 end
+
+# identify cohorts - done
+# for each cohort
+# list applicable students
+# once each cohort complete, move to next cohort
+# then list applicable students
+# continue until completed
+
+
+# def print_student(students)
+#   students.each.with_index(1) do |student, index|
+#     puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+#   end
+# end
 
 # 	count = 0
 # 	until count >= studentlist.length 
@@ -152,4 +166,4 @@ print_student(students)
 print_footer(students)
 student_search(students)
 students_namelength(students)
-cohorts(students)
+# cohorts(students)
