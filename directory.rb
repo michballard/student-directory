@@ -36,10 +36,10 @@ print_header
 print_student(students)
 print_footer(students)
 
-#Modify your program to only print the students whose name begins with any letter
+# List only students whose name begins with a specified letter
 def student_search(studentlist)
-	puts "What starting letter would you like to search for:"
-	# get the search character
+	puts "What is the starting letter you would like to search for?"
+	# get the search character from user
 	character = gets.chomp.capitalize
 	# perform search for character
 	studentlist.select do |student| 
@@ -48,3 +48,16 @@ def student_search(studentlist)
 end
 
 student_search(students)
+
+# List only students with names shorter than specified number of characters
+def students_namelength(studentlist)
+	puts "What is the required maximum number of characters in full name?"
+	# get number of characters from user
+	namelength = gets.chomp.to_i
+	# perform search for name lengths
+	studentlist.select do |student|
+		puts "#{student[:name]}" if student[:name].length <= namelength
+	end
+end	
+
+students_namelength(students)
