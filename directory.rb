@@ -1,25 +1,46 @@
-def print_header
-  print "The students of my cohort at Makers Academy\n----------------\n"
-end
-
 def input_students
-	print "Please enter the names of the students\n"
-	print "To finish, just hit return twice\n"
+	print "Please enter the details of each student\n"
+	print "To finish, just press return twice\n"
 	# create an empty array
 	students = []
-	# get the first name
+	# get the first student's details
+	puts "What is the student name?"
 	name = gets.chomp
+	puts "Which cohort is #{name} in?"
+	cohort = gets.chomp
+	puts "What are #{name}'s hobbies?"
+	hobbies = gets.chomp
+	puts "Which country was #{name} born in?"
+	cob = gets.chomp
+	puts "What is #{name}'s height in cm?"
+	height = gets.chomp
 	# while the name is not empty, repeat this code
 	while !name.empty? do
 		# add the student hash to the array
-		students << {:name => name.capitalize, :cohort => :august}
+		students << {:name => name.capitalize, :cohort => cohort.capitalize, :hobbies => hobbies.downcase, :cob => cob.upcase, :height => height.to_i}
 		print "Now we have #{students.length} students\n"
-		# get another name from the user
+		# get another student's details from the user
+		puts "What is next student's name?"
 		name = gets.chomp
+		# run additional questions if another student is being added
+		if name != ""
+			puts "Which cohort is #{name} in?"
+			cohort = gets.chomp
+			puts "What are #{name}'s hobbies?"
+			hobbies = gets.chomp
+			puts "Which country was #{name} born in?"
+			cob = gets.chomp
+			puts "What is #{name}'s height in cm?"
+			height = gets.chomp		
+		end
 	end
 	# return the array of students
 	students
 end 
+
+def print_header
+  print "The students of my cohort at Makers Academy\n----------------\n"
+end
 
 # def print_student(students)
 #   students.each.with_index(1) do |student, index|
@@ -40,11 +61,12 @@ end
 
 # Rewriting above code using "until" control flow method
 def print_student(studentlist)
-	count = 1
+	count = 0
 	until count >= studentlist.length 
 		studentlist.select do |student|
+			count += 1			
 			puts "#{count}. #{student[:name]} (#{student[:cohort]} cohort)"
-			count += 1
+			puts "Hobbies: #{student[:hobbies]}, Birth country: #{student[:cob]}, Height: #{student[:height]}"
 		end
 	end
 end
