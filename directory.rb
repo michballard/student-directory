@@ -1,12 +1,13 @@
-$cohort_months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-$default_cohort_month = "August"
+require 'csv'
+COHORT_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+DEFAULT_COHORT_MONTH = "August"
 @students = []
 
 def input_student
 	# get the first student's details
 	puts "What is the student name?"
 	name = STDIN.gets.strip.capitalize
-	return nil if name.empty? 
+	return false if name.empty? 
 
 	# obtain cohort and perform checks
 	cohort = ""
@@ -14,10 +15,10 @@ def input_student
 	loop do
 		cohort = STDIN.gets.strip.capitalize
 		if cohort.empty?
-			cohort = $default_cohort_month
+			cohort = DEFAULT_COHORT_MONTH
 			puts "August cohort selected as default"
 			break
-		elsif $cohort_months.include?(cohort)
+		elsif COHORT_MONTHS.include?(cohort)
 			puts "Cohort verified"	
 			break	
 		else
@@ -34,7 +35,8 @@ def input_student
 	height = STDIN.gets.chomp.to_i
 
 	# return the student as a hash
-	return { name: name, cohort: cohort, hobbies: hobbies, cob: cob, height: height }
+	add_student(name, cohort, hobbies, cob, height)
+	return true
 end
 
 
@@ -43,16 +45,13 @@ def input_students
 	puts "To finish, just press return"
 	# create an empty array
 	loop do
-		student = input_student
-		break if student == nil
-		@students << student
+		break if input_student == false
 		print "Now we have #{@students.length} student"
 		if @students.length != 1
 			print "s"
 		end
 		print "\n"
 	end	
-	return @students
 end
 
 def print_header
@@ -148,40 +147,35 @@ def print_menu
 	puts "2. Show the students"
 	puts "3. Save the list to students.csv"
 	puts "4. Load the list from students.csv"
-	puts "5. Load code content"
+	puts "5. Show source code"
 	puts "9. Exit" 
 end
 
 def save_students
+	puts "What would you like to save as filename?"
+	filename = gets.strip
+	return if filename.empty?
 	# open the file for writing
-	file = File.open("students.csv", "w")
-	# iterate over the array of students
-	@students.each do |student|
-		student_data = [student[:name], student[:cohort]]
-		csv_line = student_data.join(",")
-		file.puts csv_line
+	File.open(filename, "w") do |file|
+		# iterate over the array of students
+		@students.each do |student|
+			student_data = [student[:name], student[:cohort], student[:hobbies], student[:cob], student[:height]]
+			csv_line = student_data.join(",")
+			file.puts csv_line
+		end
 	end
-	file.close
 end
 
-def add_student(name, cohort)
-	@students << {name: name, cohort: cohort.to_sym}
+def add_student(name, cohort, hobbies = "", cob = "", height = 0)
+	@students << {name: name, cohort: cohort.to_sym, hobbies: hobbies, cob: cob, height: height}
 end
 
-def load_students(filename = "students.csv")
-	file = File.open(filename, "r")
-	file.readlines.each do |line|
-		name, cohort = line.chomp.split(',')
-		add_student(name, cohort)
-	end
-	file.close
-end
-
-def try_load_students
-	filename = ARGV.first # first argument from the command line
-	return if filename.nil? # get out of the method if it isn't given
+# Loads student list from specified CSV
+def load_students(filename)
 	if File.exists?(filename) # if it exists
-		load_students(filename)
+		CSV.foreach(filename) do |line|
+			add_student(line[0], line[1])
+		end
 		puts "Loaded #{@students.length} from #{filename}"
 	else # if it doesn't exist
 		puts "Sorry, #{filename} doesn't exist."
@@ -189,6 +183,22 @@ def try_load_students
 	end
 end
 
+# Performs check whether filename has been entered
+def query_load_students
+	puts "What filename would you like to load?"
+	filename = gets.chomp
+	return if filename.empty?
+	load_students(filename)
+end
+
+# If specified in command line, loads csv file
+def try_load_students
+	filename = ARGV.first # first argument from the command line
+	return if filename.nil? # get out of the method if it isn't given
+	load_students(filename)
+end	
+
+# Shows source code
 def code_content
 	puts File.read(__FILE__)
 end
@@ -197,14 +207,14 @@ def process(selection)
 	case selection
 		when "1"
 			# input the students
-			@students = input_students
+			input_students
 		when "2"
 			# show the students
 			show_students
 		when "3"
 			save_students
 		when "4"
-			try_load_students
+			query_load_students
 		when "5"
 			code_content
 		when "9"
@@ -221,8 +231,8 @@ def interactive_menu
 	end
 end
 
+try_load_students
 interactive_menu
-
 
 # student_search(@students)
 # students_name_length(@students)
