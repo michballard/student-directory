@@ -4,14 +4,14 @@ $default_cohort_month = "August"
 def input_student
 	# get the first student's details
 	puts "What is the student name?"
-	name = gets.chomp.capitalize
+	name = gets.strip.capitalize
 	return nil if name.empty? 
 
 	# obtain cohort and perform checks
 	cohort = ""
 	puts "Which cohort is #{name} in?"
 	loop do
-		cohort = gets.chomp.capitalize
+		cohort = gets.strip.capitalize
 		if cohort.empty?
 			cohort = $default_cohort_month
 			puts "August cohort selected as default"
@@ -28,7 +28,7 @@ def input_student
 	puts "What are #{name}'s hobbies?"
 	hobbies = gets.chomp.downcase
 	puts "Which country was #{name} born in?"
-	cob = gets.chomp.upcase
+	cob = gets.strip.upcase
 	puts "What is #{name}'s height in cm?"
 	height = gets.chomp.to_i
 
@@ -46,6 +46,11 @@ def input_students
 		student = input_student
 		break if student == nil
 		student_input << student
+		print "Now we have #{student_input.length} student"
+		if student_input.length != 1
+			print "s"
+		end
+		print "\n"
 	end	
 	return student_input
 end
@@ -105,7 +110,7 @@ def student_search(studentlist)
 end
 
 # List only students with names shorter than specified number of characters
-def students_namelength(studentlist)
+def students_name_length(studentlist)
 	puts "What is the required maximum number of characters in full name?"
 	# get number of characters from user
 	namelength = gets.chomp.to_i
@@ -131,5 +136,5 @@ print_header
 print_student(students)
 print_footer(students)
 student_search(students)
-students_namelength(students)
+students_name_length(students)
 cohorts(students)
