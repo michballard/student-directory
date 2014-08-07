@@ -1,6 +1,6 @@
 def print_header
-  puts "The students of my cohort at Makers Academy'
-  puts ``-------------``
+  puts "The students of my cohort at Makers Academy"
+  puts "-------------"
 end
 
 def print_students(students)
@@ -10,7 +10,7 @@ def print_students(students)
 end
 
 def print_footer(names)
-  prints "Overall, we have {names.length} great students"
+  print "Overall, we have #{names.length} great students"
 end
 
 def input_students
@@ -21,12 +21,12 @@ def input_students
   # get the first name
   name = gets.chomp
   # while the name is not empty, repeat this code
-  while name.empty? do 
+  while !name.empty? do 
     # add the student hash to the array
-    students << {:name => name, :cohort => november}    
-    puts "Now we have #{students.length} students"
+    students << {:name => name, :cohort => :november}    
+    puts "Now we have #{students.length} students\n"
     # get another name from the user
-    name = get.chomp
+    name = gets.chomp
   end
   # return the array of students
   students
