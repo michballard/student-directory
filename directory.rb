@@ -97,6 +97,17 @@ def print_footer(names)
   	print "\n"
 end
 
+# Lists students only if there is 1 or more students saved in array
+def print_student_list(studentlist)
+	if studentlist.length <= 0
+		puts "No students found in student list - End of program"
+	else 
+		print_header
+		print_student(studentlist)
+		print_footer(studentlist)
+	end
+end
+
 # List only students whose name begins with a specified letter
 def student_search(studentlist)
 	puts "What is the starting letter you would like to search for?"
@@ -132,9 +143,10 @@ def cohorts(studentlist)
 end
 
 students = input_students
-print_header
-print_student(students)
-print_footer(students)
+
+print_student_list (students)
+
 student_search(students)
 students_name_length(students)
+
 cohorts(students)
