@@ -148,7 +148,7 @@ def print_menu
 	puts "2. Show the students"
 	puts "3. Save the list to students.csv"
 	puts "4. Load the list from students.csv"
-	puts "5. Load code content"
+	puts "5. Show source code"
 	puts "9. Exit" 
 end
 
@@ -177,6 +177,14 @@ def load_students(filename = "students.csv")
 	file.close
 end
 
+# Refactoring load to include CSV functionality
+# def load_students(filename = "students.csv")
+# 	CSV.foreach(filename) do |line|
+# 		add_student(row[1], row[2])
+# 	end
+# 	file.close
+# end
+
 def try_load_students
 	filename = ARGV.first # first argument from the command line
 	return if filename.nil? # get out of the method if it isn't given
@@ -189,6 +197,7 @@ def try_load_students
 	end
 end
 
+# Shows source code
 def code_content
 	puts File.read(__FILE__)
 end
