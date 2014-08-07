@@ -5,14 +5,14 @@ $default_cohort_month = "August"
 def input_student
 	# get the first student's details
 	puts "What is the student name?"
-	name = gets.strip.capitalize
+	name = STDIN.gets.strip.capitalize
 	return nil if name.empty? 
 
 	# obtain cohort and perform checks
 	cohort = ""
 	puts "Which cohort is #{name} in?"
 	loop do
-		cohort = gets.strip.capitalize
+		cohort = STDIN.gets.strip.capitalize
 		if cohort.empty?
 			cohort = $default_cohort_month
 			puts "August cohort selected as default"
@@ -27,11 +27,11 @@ def input_student
 
 	# enter further information
 	puts "What are #{name}'s hobbies?"
-	hobbies = gets.chomp.downcase
+	hobbies = STDIN.gets.chomp.downcase
 	puts "Which country was #{name} born in?"
-	cob = gets.strip.upcase
+	cob = STDIN.gets.strip.upcase
 	puts "What is #{name}'s height in cm?"
-	height = gets.chomp.to_i
+	height = STDIN.gets.chomp.to_i
 
 	# return the student as a hash
 	return { name: name, cohort: cohort, hobbies: hobbies, cob: cob, height: height }
@@ -112,7 +112,7 @@ end
 def student_search
 	puts "What is the starting letter you would like to search for?"
 	# get the search character from user
-	character = gets.chomp.capitalize
+	character = STDIN.gets.chomp.capitalize
 	puts "Names starting with #{character}:"
 	# perform search for character
 	@students.select do |student| 
@@ -124,7 +124,7 @@ end
 def students_name_length
 	puts "What is the required maximum number of characters in full name?"
 	# get number of characters from user
-	namelength = gets.chomp.to_i
+	namelength = STDIN.gets.chomp.to_i
 	puts "Names with up to #{namelength} characters:"
 	# perform search for name lengths
 	@students.select do |student|
@@ -148,33 +148,8 @@ def print_menu
 	puts "2. Show the students"
 	puts "3. Save the list to students.csv"
 	puts "4. Load the list from students.csv"
+	puts "5. Load code content"
 	puts "9. Exit" 
-end
-
-def process(selection)
-	case selection
-		when "1"
-			# input the students
-			@students = input_students
-		when "2"
-			# show the students
-			show_students
-		when "3"
-			save_students
-		when "4"
-			load_students
-		when "9"
-			exit #this will cause the program to terminate
-		else
-			puts "I don't know what you meant, try again"
-	end 
-end
-
-def interactive_menu
-	loop do
-		print_menu
-		process(gets.chomp)
-	end
 end
 
 def save_students
@@ -189,16 +164,65 @@ def save_students
 	file.close
 end
 
-def load_students
-	file = File.open("students.csv", "r")
+def add_student(name, cohort)
+	@students << {name: name, cohort: cohort.to_sym}
+end
+
+def load_students(filename = "students.csv")
+	file = File.open(filename, "r")
 	file.readlines.each do |line|
 		name, cohort = line.chomp.split(',')
-		@students << {name: name, cohort: cohort.to_sym}
+		add_student(name, cohort)
 	end
 	file.close
 end
 
+def try_load_students
+	filename = ARGV.first # first argument from the command line
+	return if filename.nil? # get out of the method if it isn't given
+	if File.exists?(filename) # if it exists
+		load_students(filename)
+		puts "Loaded #{@students.length} from #{filename}"
+	else # if it doesn't exist
+		puts "Sorry, #{filename} doesn't exist."
+		exit # quit the program
+	end
+end
+
+def code_content
+	puts File.read(__FILE__)
+end
+
+def process(selection)
+	case selection
+		when "1"
+			# input the students
+			@students = input_students
+		when "2"
+			# show the students
+			show_students
+		when "3"
+			save_students
+		when "4"
+			try_load_students
+		when "5"
+			code_content
+		when "9"
+			exit #this will cause the program to terminate
+		else
+			puts "I don't know what you meant, try again"
+	end 
+end
+
+def interactive_menu
+	loop do
+		print_menu
+		process(STDIN.gets.chomp)
+	end
+end
+
 interactive_menu
+
 
 # student_search(@students)
 # students_name_length(@students)
