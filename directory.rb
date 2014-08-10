@@ -174,7 +174,26 @@ def add_student(name, cohort, hobbies = "", cob = "", height = 0)
 end
 
 # Loads student list from specified CSV
-def load_students(filename)
+def load_students(filename = "students.csv")
+	file = File.open(filename, "r")
+	file.readlines.each do |line|
+		name, cohort = line.chomp.split(',')
+		add_student(name, cohort)
+	end
+	file.close
+end
+
+# Refactoring load to include CSV functionality
+# def load_students(filename = "students.csv")
+# 	CSV.foreach(filename) do |line|
+# 		add_student(row[1], row[2])
+# 	end
+# 	file.close
+# end
+
+def try_load_students
+	filename = ARGV.first # first argument from the command line
+	return if filename.nil? # get out of the method if it isn't given
 	if File.exists?(filename) # if it exists
 		CSV.foreach(filename) do |line|
 			add_student(line[0], line[1])
