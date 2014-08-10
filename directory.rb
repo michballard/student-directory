@@ -146,7 +146,7 @@ def print_menu
 	puts "1. Input the students"
 	puts "2. Show the students"
 	puts "3. Save the list to students.csv"
-	puts "4. Load the list from students.csv"
+	puts "4. Load list csv file"
 	puts "5. Show source code"
 	puts "6. Search for student by starting letter of first name"
 	puts "7. Search for student by maximum name length"
