@@ -148,6 +148,9 @@ def print_menu
 	puts "3. Save the list to students.csv"
 	puts "4. Load the list from students.csv"
 	puts "5. Show source code"
+	puts "6. Search for student by starting letter of first name"
+	puts "7. Search for student by maximum name length"
+	puts "8. Show list of students by cohort"
 	puts "9. Exit" 
 end
 
@@ -217,7 +220,14 @@ def process(selection)
 			query_load_students
 		when "5"
 			code_content
+		when "6"
+			student_search
+		when "7"
+			students_name_length
+		when "8"
+			cohorts
 		when "9"
+			puts "Thank you for using the student directory"
 			exit #this will cause the program to terminate
 		else
 			puts "I don't know what you meant, try again"
@@ -233,7 +243,3 @@ end
 
 try_load_students
 interactive_menu
-
-# student_search(@students)
-# students_name_length(@students)
-# cohorts(@students)
