@@ -6,6 +6,7 @@ Student Directory
 
 The student directory script allows you to manage the list of students enrolled on the course at Makers Academy. It has also been extended to allow writing to and reading from files.
 
+Screenshot of student directory menu from terminal:
 ![Screenshot](/images/screenshot.png)
 
 Technologies used
